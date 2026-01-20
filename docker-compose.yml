@@ -15,14 +15,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: cetaf_survey_api
-    ports:
-      - "5432:5432"
     networks:
       - cetaf-net
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.postgres.rule=Host(`postgres.${DOMAIN_NAME}`)"
-      - "traefik.http.routers.postgres.entrypoints=web"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -31,8 +25,6 @@ services:
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
-    ports:
-      - "9200:9200"
     networks:
       - cetaf-net
     labels:
@@ -45,10 +37,12 @@ services:
     container_name: django
     env_file:
       - .env
-    ports:
-      - "8000:8000"
     networks:
       - cetaf-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.django.rule=Host(`django.${DOMAIN_NAME}`)"
+      - "traefik.http.routers.django.entrypoints=web"
     depends_on:
       - postgres
       - elasticsearch
