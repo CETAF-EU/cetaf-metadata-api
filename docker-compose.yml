@@ -6,6 +6,7 @@ networks:
 
 volumes:
   postgres_data:
+  elasticsearch_data:
 
 services:
   postgres:
@@ -31,6 +32,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.elasticsearch.rule=Host(`elasticsearch.${DOMAIN_NAME}`)"
       - "traefik.http.routers.elasticsearch.entrypoints=web"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
 
   django:
     build: .

@@ -57,7 +57,9 @@ Linked Django commands (via shell at the root of the project - **manage.py** lev
    3. **python manage.py loadindb_institutions --extra_apis  grscicoll_institutions grscicoll_collections_from_institutions** (loads institutions from GoogleSheet, if the GRSciColl ID is given get metadata from GriSciColl (grscicoll_institutions) and  forces the cration of the declared collections (grscicoll_collections_from_institutions)
    4. **python3 manage.py loadindb_institutions --extra_apis  collection_overview** create collections from the summary Google sheet of the institutions
    5. **python3 manage.py loadindb_collections**  create collections from uploaded collections sheets (see **settings.CETAF_DATA_ADDRESS** for params)
-3. *Command parser 3*
+3. Create es index
+   1. example : curl -X PUT -H "Authorization: ApiKey $ELASTIC_API_KEY" -H "Content-Type: application/json" -d '{"settings":{"number_of_shards":3,"number_of_replicas":2}}' "$ELASTICSEARCH_URL/my-index-000001"
+4. *Command parser 3*
    1.  **python manage.py copy_es --target_index institutions** pushes institutions to target ElasticSearch
    2.  **python manage.py copy_es --target_index collections** pushes collections to target ElasticSearch    
       
@@ -367,3 +369,6 @@ Principle : the number is the index (0-based of the column in the soruce Google 
 Franck Theeten : Africamuseum Belgium (franck.theeten@africamuseum.be)
 
 Patrick Semal : Head of collection, RBINS, Belgium (p.semal@africamuseum.be)
+
+Alessio Glorioso : CETAF (Alessio.glorioso@cetaf.org)
+
