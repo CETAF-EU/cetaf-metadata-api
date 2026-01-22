@@ -20,7 +20,7 @@ create_index_if_missing() {
   status="$(curl -s -o /dev/null -w "%{http_code}" -X HEAD "${index_url}")"
   if [ "${status}" = "404" ]; then
     curl -s -X PUT -H "Content-Type: application/json" \
-      -d '{"settings":{"number_of_shards":3,"number_of_replicas":2}}' \
+      -d '{}' \
       "${index_url}"
     echo
   fi
